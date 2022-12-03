@@ -28,6 +28,9 @@ public class Author {
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
 
+    public Author(){
+
+    }
 
 }
 

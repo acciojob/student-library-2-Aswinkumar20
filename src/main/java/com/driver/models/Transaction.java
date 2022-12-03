@@ -12,6 +12,9 @@ import java.util.UUID;
 @Data
 public class Transaction {
 
+    public Transaction(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
