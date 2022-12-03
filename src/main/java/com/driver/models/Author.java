@@ -9,7 +9,9 @@ import java.util.List;
 
 @Entity
 @Data
-
+@AllArgsConstructor
+@Getter
+@Setter
 public class Author {
 
     @Id

@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.driver.models.TransactionStatus.SUCCESSFUL;
 
@@ -58,34 +60,40 @@ public class TransactionService {
             throw new Exception("Card is invalid");
         }
 
-        Card card2 = new Card();
-
-
-
-
-
-
-
 
         Card card1 = cardRepository5.findById(cardId);
+
+
 
         if(card1.getBooks().size() > getMax_allowed_days){
             throw new Exception("Book limit has reached for this card");
         }
 
+
         // if all passing then we good to go for next step to add it to the transaction
 
         //If the transaction is successful, save the transaction to the list of transactions and return the id
 
-        Transaction transaction1 = new Transaction();
-        transaction1.setCard(card1);
-        transaction1.setBook(book1);
-        transaction1.setFineAmount(fine_per_day);
-        transaction1.setIssueOperation(true);
-        transaction1.setTransactionStatus(SUCCESSFUL);
+        book1.setCard(card1);
+        card1.getBooks().add(book1);
+        Transaction transaction1 = Transaction.builder()
+                .card(card1)
+                .book(book1)
+                .fineAmount(0)
+                .transactionId(String.valueOf(UUID.randomUUID()))
+                .isIssueOperation(true)
+                .transactionStatus(SUCCESSFUL)
+                .build();
+
         book1.setAvailable(false);
 
+        List<Book> books1 = card1.getBooks();
+
         // adding transaction to respective book
+
+        transactionRepository5.save(transaction1);
+        books1.add(book1);
+        card1.setBooks(books1);
         book1.getTransactions().add(transaction1);
 
 
@@ -103,7 +111,36 @@ public class TransactionService {
         //make the book available for other users
         //make a new transaction for return book which contains the fine amount as well
 
-        Transaction returnBookTransaction  = null;
-        return returnBookTransaction; //return the transaction after updating all details
+        Date currdate = transaction.getTransactionDate();
+        Date curr = new Date();
+        long differenceInTime
+                = curr.getTime() - currdate.getTime();
+
+        long differenceInDays
+                = (differenceInTime
+                / (1000 * 60 * 60 * 24))
+                % 365;
+        int fineDue = 0;
+        if(differenceInDays > getMax_allowed_days){
+            int finedays = (int) (getMax_allowed_days - differenceInDays);
+            fineDue = finedays * fine_per_day;
+        }
+
+
+        //ceatin bokobject
+
+        Book book1 = transaction.getBook();
+        book1.setAvailable(true);
+
+        Transaction returnBookTransaction  = Transaction.builder().book(book1)
+                .card(transaction.getCard())
+                .transactionId(String.valueOf(UUID.randomUUID()))
+                .isIssueOperation(true)
+                .fineAmount(fineDue)
+                .build();
+
+        transactionRepository5.save(returnBookTransaction);
+        return returnBookTransaction;
+        //return the transaction after updating all details
     }
 }

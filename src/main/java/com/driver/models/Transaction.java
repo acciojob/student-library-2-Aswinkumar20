@@ -1,7 +1,7 @@
 package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +10,10 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@Getter
+@Setter
 public class Transaction {
 
     public Transaction(){

@@ -1,6 +1,7 @@
 package com.driver.services;
 
 import com.driver.models.Card;
+import com.driver.models.CardStatus;
 import com.driver.models.Student;
 import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import static com.driver.models.CardStatus.ACTIVATED;
 @Service
 public class StudentService {
 
-
     @Autowired
     CardService cardService4;
 
     @Autowired
     StudentRepository studentRepository4;
+
 
     public Student getDetailsByEmail(String email){
         Student student = studentRepository4.findByEmailId(email);
@@ -33,10 +34,12 @@ public class StudentService {
     public void createStudent(Student student){
 
 
-        Card card1 = new Card();
-        card1.setCardStatus(ACTIVATED);
+        Card card1 = Card.builder()
+                .student(student)
+                .cardStatus(ACTIVATED)
+                .build();
 
-        student.setCard(card1);
+
         studentRepository4.save(student);
 
     }
