@@ -1,6 +1,7 @@
 package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Data
 public class Transaction {
 
     @Id

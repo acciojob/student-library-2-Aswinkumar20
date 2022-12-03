@@ -2,15 +2,20 @@ package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
 
     @Column(unique = true)
@@ -23,8 +28,6 @@ public class Author {
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
 
-    public Author() {
-    }
 
 }
 

@@ -15,4 +15,8 @@ public class AuthorService {
     public void create(Author author){
 
     }
+
+    public void createAuthor(Author author) {
+        authorRepository1.save(author);
+    }
 }

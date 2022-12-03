@@ -1,5 +1,6 @@
 package com.driver.services;
 
+import com.driver.models.Card;
 import com.driver.models.Transaction;
 import com.driver.models.TransactionStatus;
 import com.driver.repositories.BookRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -42,6 +44,16 @@ public class TransactionService {
         //3. number of books issued against the card is strictly less than max_allowed_books
         // If it fails: throw new Exception("Book limit has reached for this card");
         //If the transaction is successful, save the transaction to the list of transactions and return the id
+
+        if(!bookRepository5.existsById(bookId)){
+            throw new Exception("Book is either unavailable or not present");
+        }
+
+        if(!cardRepository5.existsById(cardId)){
+            throw new Exception("Card is invalid");
+        }
+
+
 
         //Note that the error message should match exactly in all cases
 
