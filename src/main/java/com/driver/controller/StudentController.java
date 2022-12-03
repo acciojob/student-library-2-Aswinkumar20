@@ -38,7 +38,7 @@ public class StudentController {
     @PostMapping("/student/")
     public ResponseEntity createStudent(@RequestBody Student student){
         studentService.createStudent(student);
-        cardService.createAndReturn(student);
+
         return new ResponseEntity<>("the student is successfully added to the system", HttpStatus.CREATED);
     }
 

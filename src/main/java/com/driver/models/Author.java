@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -29,10 +29,6 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
-
-    public Author(){
-
-    }
 
 }
 

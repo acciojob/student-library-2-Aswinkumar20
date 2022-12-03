@@ -9,16 +9,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Data
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
 public class Transaction {
 
-    public Transaction(){
-
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

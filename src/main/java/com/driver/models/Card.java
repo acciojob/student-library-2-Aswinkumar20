@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 @Getter
@@ -38,7 +38,4 @@ public class Card {
     @JsonIgnoreProperties("card")
     private List<Book> books;
 
-    public Card(){
-        this.cardStatus = CardStatus.ACTIVATED;
-    }
 }

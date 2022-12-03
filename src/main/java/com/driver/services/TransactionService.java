@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.driver.models.TransactionStatus.SUCCESSFUL;
@@ -62,7 +63,7 @@ public class TransactionService {
 
 
 
-        if(card1.getBooks().size() > getMax_allowed_days){
+        if(card1.getBooks().size() >= getMax_allowed_days){
             throw new Exception("Book limit has reached for this card");
         }
 
@@ -111,36 +112,99 @@ public class TransactionService {
         //make the book available for other users
         //make a new transaction for return book which contains the fine amount as well
 
-        Date currdate = transaction.getTransactionDate();
-        Date curr = new Date();
-        long differenceInTime
-                = curr.getTime() - currdate.getTime();
+        String issuedDate = transaction.getTransactionDate().toString();
+        String currDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-        long differenceInDays
-                = (differenceInTime
-                / (1000 * 60 * 60 * 24))
-                % 365;
-        int fineDue = 0;
-        if(differenceInDays > getMax_allowed_days){
-            int finedays = (int) (getMax_allowed_days - differenceInDays);
-            fineDue = finedays * fine_per_day;
+
+        // now we want diifernece of current date and the issued date of book
+
+        long daysBetween = calculatingDays(issuedDate , currDate);
+
+        // now checking if the day is exceeding the limit:
+
+        long extraDay = 0;    // extraday for putting fine
+        if(daysBetween > getMax_allowed_days){
+            extraDay = daysBetween - getMax_allowed_days;
         }
+
+        int fineAmount = (int) (extraDay * fine_per_day);
+
+
 
 
         //ceatin bokobject
 
         Book book1 = transaction.getBook();
         book1.setAvailable(true);
+        bookRepository5.save(book1);
 
         Transaction returnBookTransaction  = Transaction.builder().book(book1)
                 .card(transaction.getCard())
                 .transactionId(String.valueOf(UUID.randomUUID()))
                 .isIssueOperation(true)
-                .fineAmount(fineDue)
+                .fineAmount(fineAmount)
                 .build();
 
         transactionRepository5.save(returnBookTransaction);
+
+
+        // now remove the book from card:
+
+        Card card2 = cardRepository5.findById(cardId);
+        List<Book> booksInCards = card2.getBooks();
+
+        booksInCards.removeIf(curr -> curr.getId() == bookId);
+
+        card2.setBooks(booksInCards);
+        cardRepository5.save(card2);
         return returnBookTransaction;
         //return the transaction after updating all details
+    }
+
+    // calculating days
+    private long calculatingDays(String issuedDate, String currDate) {
+        int year1 = Integer.parseInt(issuedDate.substring(0,4));
+        int month1 = Integer.parseInt(issuedDate.substring(5,7));
+        int day1 = Integer.parseInt(issuedDate.substring(8,10));
+
+        int year2 = Integer.parseInt(currDate.substring(0,4));
+        int month2 = Integer.parseInt(currDate.substring(5,7));
+        int day2 = Integer.parseInt(currDate.substring(8,10));
+
+        //now we want to find each days inbetween the months
+        int countDays1 = countAllDays(day1, month1, year1);
+        int countDays2 = countAllDays(day2, month2, year2);
+
+        return Math.abs(countDays1-countDays2);
+    }
+
+
+    // calculating all days
+    // global variable for months
+    private final int[] DaysInMonth = {0, 31,28,31,30,31,30,31,31,30,31,30,31};
+
+
+    private int countAllDays(int day2, int month2, int year2) {
+        int countDays = day2-1;
+        int yearDiff = year2-1 - 2010;
+
+        countDays += (365*yearDiff) + (yearDiff/4);
+
+        for(int i=1;i<month2;i++){
+            countDays += DaysInMonth[i];
+        }
+        if(month2>2 && isLeapYearOrNot(year2)) {
+            ++countDays;
+        }
+        return countDays;
+    }
+
+    // checking leap year
+
+    public boolean isLeapYearOrNot(int year){
+        if(year%400==0) return true;
+        if(year%100==0) return false;
+
+        return year%4==0;
     }
 }
