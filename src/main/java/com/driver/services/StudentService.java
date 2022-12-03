@@ -1,9 +1,12 @@
 package com.driver.services;
 
+import com.driver.models.Card;
 import com.driver.models.Student;
 import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.driver.models.CardStatus.ACTIVATED;
 
 @Service
 public class StudentService {
@@ -28,6 +31,12 @@ public class StudentService {
     }
 
     public void createStudent(Student student){
+
+
+        Card card1 = new Card();
+        card1.setCardStatus(ACTIVATED);
+
+        student.setCard(card1);
         studentRepository4.save(student);
 
     }

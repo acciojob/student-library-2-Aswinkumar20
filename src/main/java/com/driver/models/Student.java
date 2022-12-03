@@ -12,6 +12,9 @@ import java.util.Date;
 @Data
 public class Student {
 
+    public Student() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,8 +26,6 @@ public class Student {
 
     private String country;
 
-    public Student() {
-    }
 
     // alter table student add foreign key constraint card references Card(id)
 

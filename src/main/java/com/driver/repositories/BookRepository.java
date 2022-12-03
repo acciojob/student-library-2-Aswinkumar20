@@ -36,5 +36,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     // check the book id is present or not
     boolean existsById(int id);
 
+    // find by id
+    Book findById(int id);
+
 
 }
