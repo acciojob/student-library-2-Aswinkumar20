@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static com.driver.models.TransactionStatus.SUCCESSFUL;
 
@@ -89,6 +86,9 @@ public class TransactionService {
 
         List<Book> books1 = card1.getBooks();
 
+        // if the list of book is null then create
+
+        if(books1 == null) books1 = new ArrayList<>();
         // adding transaction to respective book
 
         transactionRepository5.save(transaction1);
