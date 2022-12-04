@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+//import java.util.List;
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class BookService {
@@ -19,6 +22,7 @@ public class BookService {
     public void createBook(Book book){
         Author author1 = book.getAuthor();
         if(author1 == null){
+            assert false;
             if(author1.getBooksWritten() == null){
                 author1.setBooksWritten(new ArrayList<>());
             }
