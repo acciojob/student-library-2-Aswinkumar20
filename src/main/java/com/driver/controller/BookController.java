@@ -2,7 +2,6 @@ package com.driver.controller;
 
 import com.driver.models.Book;
 import com.driver.services.BookService;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

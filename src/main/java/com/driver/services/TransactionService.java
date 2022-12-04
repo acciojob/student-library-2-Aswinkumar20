@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,8 +48,8 @@ public class TransactionService {
 
         //Note that the error message should match exactly in all cases
 
-        Card card = cardRepository5.findById(cardId);
-        Book book = bookRepository5.findById(bookId);
+        Card card = cardRepository5.findById(cardId).get();
+        Book book = bookRepository5.findById(bookId).get();
 
         if(book == null && book.isAvailable() == false){
             throw new Exception("Book is either unavailable or not present");
@@ -103,23 +103,23 @@ public class TransactionService {
     public Transaction returnBook(int cardId, int bookId) throws Exception{
 
         List<Transaction> transactions = transactionRepository5.find(cardId, bookId, TransactionStatus.SUCCESSFUL, true);
-        Transaction transaction = transactions.get(transactions.size() - 1);
-        Date date = transaction.getTransactionDate();
+        Transaction transaction1 = transactions.get(transactions.size() - 1);
+        Date date = transaction1.getTransactionDate();
         Date curr = new Date();
-        long difference_In_Time
+        long TimeDifference
                 = curr.getTime() - date.getTime();
 
-        long differenceInDays
-                = (difference_In_Time
+        long difference_In_Days
+                = (TimeDifference
                 / (1000 * 60 * 60 * 24))
                 % 365;
         int fine = 0;
-        if(differenceInDays > getMax_allowed_days){
-            int fineDue = (int) (getMax_allowed_days - differenceInDays);
-            fine = -1*fineDue * fine_per_day;
+        if(difference_In_Days > getMax_allowed_days){
+            int finedays = (int) (getMax_allowed_days - difference_In_Days);
+            fine = -1*finedays * fine_per_day;
         }
 
-        Book book = transaction.getBook();
+        Book book = transaction1.getBook();
         book.setAvailable(true);
         bookRepository5.updateBook(book);
         //for the given transaction calculate the fine amount considering the book has been returned exactly when this function is called
@@ -128,7 +128,7 @@ public class TransactionService {
 
         Transaction returnBookTransaction  = Transaction.builder()
                 .book(book)
-                .card(transaction.getCard())
+                .card(transaction1.getCard())
                 .transactionId(String.valueOf(UUID.randomUUID()))
                 .isIssueOperation(true)
                 .fineAmount(fine)
