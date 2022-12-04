@@ -48,8 +48,8 @@ public class TransactionService {
 
         //Note that the error message should match exactly in all cases
 
-        Card card = cardRepository5.findById(cardId).get();
-        Book book = bookRepository5.findById(bookId).get();
+        Card card = cardRepository5.findById(cardId);
+        Book book = bookRepository5.findById(bookId);
 
         if(book == null && book.isAvailable() == false){
             throw new Exception("Book is either unavailable or not present");
