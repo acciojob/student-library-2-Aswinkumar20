@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
 @RestController
-@Slf4j
+@RequestMapping("/transaction")
 public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
 
     //Add required annotations
-    @PostMapping("transaction/issueBook")
+    @PostMapping("/issueBook")
     public ResponseEntity issueBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception{
-        log.info("book is issuing");
+//        log.info("book is issuing");
         transactionService.issueBook(cardId, bookId);
        return new ResponseEntity<>("transaction completed", HttpStatus.ACCEPTED);
     }
 
     //Add required annotations
-    @PostMapping("/transaction/returnBook")
+    @PostMapping("/returnBook")
     public ResponseEntity returnBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception{
 
         transactionService.returnBook(cardId, bookId);

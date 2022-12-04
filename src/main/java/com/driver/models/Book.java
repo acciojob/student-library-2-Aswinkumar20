@@ -57,6 +57,5 @@ public class Book {
         this.available = available;
         this.transactions = transactions;
     }
-
 }
 

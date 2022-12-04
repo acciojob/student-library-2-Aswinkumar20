@@ -1,25 +1,21 @@
 package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.lang.*;
-import java.lang.String;
 
 @Entity
-@Data
+//@Table(name = "author")
+@Getter
+@Setter
+@Builder
 public class Author {
 
-    public Author(){
-
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
 
     @Column(unique = true)
@@ -32,14 +28,15 @@ public class Author {
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
 
+    public Author() {
 
+    }
     public Author(String name, String email, int age, String country) {
         this.name = name;
         this.email = email;
         this.age = age;
         this.country = country;
     }
-
     public Author(int id, String name, String email, int age, String country, List<Book> booksWritten) {
         this.id = id;
         this.name = name;
@@ -50,4 +47,3 @@ public class Author {
     }
 
 }
-

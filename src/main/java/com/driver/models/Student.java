@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@Builder
 public class Student {
     public Student(){
 

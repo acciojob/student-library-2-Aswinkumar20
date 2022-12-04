@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
 @RestController
+@RequestMapping("/student")
 public class StudentController {
 
 
@@ -21,21 +22,21 @@ public class StudentController {
 
 
     //Add required annotations
-    @GetMapping("/student/studentByEmail")
+    @GetMapping("/studentByEmail")
     public ResponseEntity getStudentByEmail(@RequestParam("email") String email){
         studentService.getDetailsByEmail(email);
         return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @GetMapping("/student/studentById")
+    @GetMapping("/studentById")
     public ResponseEntity getStudentById(@RequestParam("id") int id){
         studentService.getDetailsById(id);
         return new ResponseEntity<>("Student details printed successfully ", HttpStatus.OK);
     }
 
     //Add required annotations
-    @PostMapping("/student/")
+    @PostMapping()
     public ResponseEntity createStudent(@RequestBody Student student){
         studentService.createStudent(student);
 
@@ -43,14 +44,14 @@ public class StudentController {
     }
 
     //Add required annotations
-    @PutMapping("/student")
+    @PutMapping()
     public ResponseEntity updateStudent(@RequestBody Student student){
         studentService.updateStudent(student);
         return new ResponseEntity<>("student is updated", HttpStatus.ACCEPTED);
     }
 
     //Add required annotations
-    @DeleteMapping("/student")
+    @DeleteMapping()
     public ResponseEntity deleteStudent(@RequestParam("id") int id){
         studentService.deleteStudent(id);
 
