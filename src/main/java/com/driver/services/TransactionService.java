@@ -33,7 +33,7 @@ public class TransactionService {
     public int getMax_allowed_days;
 
     @Value("${books.fine.per_day}")
-    public int fineAmount;
+    public int fine_per_day;
 
     public String issueBook(int cardId, int bookId) throws Exception {
         //check whether bookId and cardId already exist
@@ -116,7 +116,7 @@ public class TransactionService {
         int fine = 0;
         if(differenceInDays > getMax_allowed_days){
             int fineDue = (int) (getMax_allowed_days - differenceInDays);
-            fine = -1*fineDue * fineAmount;
+            fine = -1*fineDue * fine_per_day;
         }
 
         Book book = transaction.getBook();
