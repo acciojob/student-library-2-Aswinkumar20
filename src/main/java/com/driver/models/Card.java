@@ -10,12 +10,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
 @Getter
 @Setter
+@Data
 public class Card {
+    public Card(){
+        this.cardStatus = CardStatus.ACTIVATED;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +39,15 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("card")
     private List<Book> books;
+
+    public Card(int id, Student student, Date createdOn, Date updatedOn, CardStatus cardStatus, List<Book> books) {
+        this.id = id;
+        this.student = student;
+        this.createdOn = createdOn;
+        this.updatedOn = updatedOn;
+        this.cardStatus = cardStatus;
+        this.books = books;
+    }
+
 
 }

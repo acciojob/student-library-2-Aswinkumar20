@@ -26,9 +26,8 @@ public class StudentService {
     }
 
     public Student getDetailsById(int id){
-        Student student = studentRepository4.findById(id);
 
-        return student;
+        return studentRepository4.findById(id);
     }
 
     public void createStudent(Student student){

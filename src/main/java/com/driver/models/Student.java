@@ -9,11 +9,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Data
 public class Student {
+    public Student(){
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +56,17 @@ public class Student {
                 '}';
     }
 
+
+    public Student(int id, String emailId, String name, int age, String country, Card card, Date createdOn, Date updatedOn) {
+        this.id = id;
+        this.emailId = emailId;
+        this.name = name;
+        this.age = age;
+        this.country = country;
+        this.card = card;
+        this.createdOn = createdOn;
+        this.updatedOn = updatedOn;
+    }
 
 
 

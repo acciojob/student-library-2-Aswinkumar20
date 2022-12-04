@@ -1,10 +1,12 @@
 package com.driver.services;
 
+import com.driver.models.Author;
 import com.driver.models.Book;
 import com.driver.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +17,14 @@ public class BookService {
     BookRepository bookRepository2;
 
     public void createBook(Book book){
+        Author author1 = book.getAuthor();
+        if(author1 == null){
+            if(author1.getBooksWritten() == null){
+                author1.setBooksWritten(new ArrayList<>());
+            }
+            author1.getBooksWritten().add(book);
+        }
+
         bookRepository2.save(book);
     }
 

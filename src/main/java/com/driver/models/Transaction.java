@@ -9,13 +9,15 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
 @Getter
 @Setter
+@Data
 public class Transaction {
 
+    public Transaction(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -42,5 +44,16 @@ public class Transaction {
 
     @CreationTimestamp
     private Date transactionDate;
+
+    public Transaction(int id, String transactionId, Card card, Book book, int fineAmount, boolean isIssueOperation, TransactionStatus transactionStatus, Date transactionDate) {
+        this.id = id;
+        this.transactionId = transactionId;
+        this.card = card;
+        this.book = book;
+        this.fineAmount = fineAmount;
+        this.isIssueOperation = isIssueOperation;
+        this.transactionStatus = transactionStatus;
+        this.transactionDate = transactionDate;
+    }
 }
 

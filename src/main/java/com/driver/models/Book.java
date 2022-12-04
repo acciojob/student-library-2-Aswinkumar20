@@ -8,11 +8,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Data
 public class Book {
+    public Book(){
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,23 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("book")
     private List<Transaction> transactions;
+
+
+    public Book(String name, Genre genre, Author author) {
+        this.name = name;
+        this.genre = genre;
+        this.author = author;
+    }
+
+    public Book(int id, String name, Genre genre, Author author, Card card, boolean available, List<Transaction> transactions) {
+        this.id = id;
+        this.name = name;
+        this.genre = genre;
+        this.author = author;
+        this.card = card;
+        this.available = available;
+        this.transactions = transactions;
+    }
 
 }
 

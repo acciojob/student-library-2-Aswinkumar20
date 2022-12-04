@@ -10,12 +10,14 @@ import java.lang.*;
 import java.lang.String;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Data
 public class Author {
 
+    public Author(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -31,6 +33,23 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("author")
     private List<Book> booksWritten;
+
+
+    public Author(String name, String email, int age, String country) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.country = country;
+    }
+
+    public Author(int id, String name, String email, int age, String country, List<Book> booksWritten) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.country = country;
+        this.booksWritten = booksWritten;
+    }
 
 }
 
