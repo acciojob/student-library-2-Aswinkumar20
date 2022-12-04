@@ -10,21 +10,17 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 @Builder
-
+@ToString
 @Data
 public class Card {
-    public Card(){
-        this.cardStatus = CardStatus.ACTIVATED;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("card")
-    private Student student;
 
     @CreationTimestamp
     private Date createdOn;
@@ -39,14 +35,12 @@ public class Card {
     @JsonIgnoreProperties("card")
     private List<Book> books;
 
-    public Card(int id, Student student, Date createdOn, Date updatedOn, CardStatus cardStatus, List<Book> books) {
-        this.id = id;
-        this.student = student;
-        this.createdOn = createdOn;
-        this.updatedOn = updatedOn;
-        this.cardStatus = cardStatus;
-        this.books = books;
-    }
+    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("card")
+    private Student student;
 
+    public Card(){
+        this.cardStatus = CardStatus.ACTIVATED;
+    }
 
 }

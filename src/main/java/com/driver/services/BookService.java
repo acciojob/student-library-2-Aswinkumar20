@@ -41,13 +41,12 @@ public class BookService {
    // and are currently unavailable.
     public List<Book> getBooks(String genre, boolean available, String author){
 
-        List<Book> books = new ArrayList<>(); //find the elements of the list by yourself
+        List<Book> books = null; //find the elements of the list by yourself
 
-        if(genre != null && available && author == null){
-            books = bookRepository2.findBooksByGenre(genre, available);
-        }else if(genre != null && !available && author != null){
-            books = bookRepository2.findBooksByGenreAuthor(genre, author, available);
-        }
+        books.addAll(bookRepository2.findBooksByAuthor(author,available));
+        books.addAll(bookRepository2.findBooksByGenre(genre,available));
+        books.addAll(bookRepository2.findBooksByGenreAuthor(genre, author, available));
+        books.addAll(bookRepository2.findByAvailability(available));
 
         return books;
     }

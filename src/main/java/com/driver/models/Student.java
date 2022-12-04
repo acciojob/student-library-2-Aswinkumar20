@@ -9,16 +9,18 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 @Data
 @Builder
 public class Student {
-    public Student(){
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+
 
     @Column(unique = true)
     private String emailId;
@@ -28,13 +30,9 @@ public class Student {
     private String country;
 
 
-    // alter table student add foreign key constraint card references Card(id)
 
-    @OneToOne
-    @JoinColumn   // join this column to the primary key of Card table
-    @JsonIgnoreProperties("student")
-    private Card card;
-
+    public Student() {
+    }
 
     @CreationTimestamp
     private Date createdOn;
@@ -55,17 +53,12 @@ public class Student {
                 '}';
     }
 
+    // alter table student add foreign key constraint card references Card(id)
 
-    public Student(int id, String emailId, String name, int age, String country, Card card, Date createdOn, Date updatedOn) {
-        this.id = id;
-        this.emailId = emailId;
-        this.name = name;
-        this.age = age;
-        this.country = country;
-        this.card = card;
-        this.createdOn = createdOn;
-        this.updatedOn = updatedOn;
-    }
+    @OneToOne
+    @JoinColumn   // join this column to the primary key of Card table
+    @JsonIgnoreProperties("student")
+    private Card card;
 
     public Student(String emailId, String name, int age, String country) {
         this.emailId = emailId;
@@ -73,7 +66,5 @@ public class Student {
         this.age = age;
         this.country = country;
     }
-
-
 
 }

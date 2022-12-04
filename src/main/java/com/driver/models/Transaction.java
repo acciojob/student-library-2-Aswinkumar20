@@ -12,27 +12,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Transaction {
 
-    public Transaction(){
-
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String transactionId = UUID.randomUUID().toString(); // externalId
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("books")
-    private Card card;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("transactions")
-    private Book book;
 
     private int fineAmount;
 
@@ -45,6 +35,16 @@ public class Transaction {
     @CreationTimestamp
     private Date transactionDate;
 
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnoreProperties("books")
+    private Card card;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnoreProperties("transactions")
+    private Book book;
 
 }
 

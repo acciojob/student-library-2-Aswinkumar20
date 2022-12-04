@@ -8,11 +8,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @Data
 public class Book {
-    public Book(){
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,10 @@ public class Book {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
+
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean available;
 
     @ManyToOne
     @JoinColumn
@@ -33,29 +38,23 @@ public class Book {
     @JsonIgnoreProperties("books")
     private Card card;
 
-
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean available;
-
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("book")
     private List<Transaction> transactions;
 
-
-    public Book(String name, Genre genre, Author author) {
-        this.name = name;
-        this.genre = genre;
-        this.author = author;
+    public Book() {
     }
 
-    public Book(int id, String name, Genre genre, Author author, Card card, boolean available, List<Transaction> transactions) {
-        this.id = id;
+    //    public Book(String name, Genre genre, boolean available) {
+//        this.name = name;
+//        this.genre = genre;
+//        this.available = available;
+//    }
+//
+    public Book(String name, Genre genre,Author author) {
         this.name = name;
         this.genre = genre;
         this.author = author;
-        this.card = card;
-        this.available = available;
-        this.transactions = transactions;
     }
 }
 
