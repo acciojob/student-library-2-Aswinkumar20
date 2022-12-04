@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.lang.*;
+import java.lang.String;
 
 @Entity
 @NoArgsConstructor
