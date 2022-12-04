@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-//import java.util.List;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class BookService {
@@ -30,24 +27,36 @@ public class BookService {
         bookRepository2.save(book);
     }
 
-
-   // For example:
-   // i) If genre=”X”, availability = true, and author=null;
-   // we require the list of all books which are available and have genre “X”.
-   // Note that these books can be written by any author.
-   //
-   // ii) If genre=”Y”, availability = false, and author=”A”;
-   // we require the list of all books which are written by author “A”, have genre “Y”,
-   // and are currently unavailable.
     public List<Book> getBooks(String genre, boolean available, String author){
-
-        List<Book> books = null; //find the elements of the list by yourself
-
-        books.addAll(bookRepository2.findBooksByAuthor(author,available));
-        books.addAll(bookRepository2.findBooksByGenre(genre,available));
-        books.addAll(bookRepository2.findBooksByGenreAuthor(genre, author, available));
-        books.addAll(bookRepository2.findByAvailability(available));
-
-        return books;
+        List<Book> books1 = new ArrayList<>();
+        if(available){
+            if(genre != null && author != null){
+                books1.addAll(bookRepository2.findBooksByGenreAuthor(genre,author,true));
+            }
+            else if(genre != null && author == null){
+                books1.addAll(bookRepository2.findBooksByGenre(genre,true));
+            }
+            else if(genre == null && author != null){
+                books1.addAll(bookRepository2.findBooksByAuthor(author,true));
+            }
+            else {
+                books1.addAll(bookRepository2.findByAvailability(true));
+            }
+        }
+        else{
+            if(genre != null && author != null){
+                books1.addAll(bookRepository2.findBooksByGenreAuthor(genre,author,false));
+            }
+            else if(genre != null && author == null){
+                books1.addAll(bookRepository2.findBooksByGenre(genre,false));
+            }
+            else if(genre == null && author != null){
+                books1.addAll(bookRepository2.findBooksByAuthor(author,false));
+            }
+            else{
+                books1.addAll(bookRepository2.findByAvailability(false));
+            }
+        }
+        return  books1;
     }
 }
