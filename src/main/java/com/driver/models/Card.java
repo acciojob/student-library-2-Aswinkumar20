@@ -11,8 +11,7 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter
-@Setter
+
 @Data
 public class Card {
     public Card(){

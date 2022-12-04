@@ -10,8 +10,6 @@ import java.util.UUID;
 
 @Entity
 @Builder
-@Getter
-@Setter
 @Data
 public class Transaction {
 

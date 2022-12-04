@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class Book {
     public Book(){

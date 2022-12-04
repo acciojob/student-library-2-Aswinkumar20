@@ -9,8 +9,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class Student {
     public Student(){
