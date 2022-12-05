@@ -23,7 +23,7 @@ public class BookController {
     @Autowired
     BookService bookService;
     //Add required annotations
-    @GetMapping("/getBooks")
+    @GetMapping("/book")
     public ResponseEntity getBooks(@RequestParam(value = "genre", required = false) String genre,
                                    @RequestParam(value = "available", required = false, defaultValue = "false") boolean available,
                                    @RequestParam(value = "author", required = false) String author){
@@ -34,7 +34,7 @@ public class BookController {
 
     }
 
-    @PostMapping("/createBook")
+    @PostMapping("/book")
     public ResponseEntity<String> createBook(@RequestBody Book book){
         bookService.createBook(book);
         return new ResponseEntity<>("Success",HttpStatus.CREATED);
