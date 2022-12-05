@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -28,6 +29,8 @@ public class BookService {
     }
 
     public List<Book> getBooks(String genre, boolean available, String author){
+
+
         List<Book> books1 = new ArrayList<>();
         if(available){
             if(genre != null && author != null){

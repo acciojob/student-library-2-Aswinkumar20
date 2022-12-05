@@ -1,13 +1,12 @@
 package com.driver.services;
 
 import com.driver.models.Card;
-import com.driver.models.CardStatus;
 import com.driver.models.Student;
 import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.driver.models.CardStatus.ACTIVATED;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -27,7 +26,8 @@ public class StudentService {
 
     public Student getDetailsById(int id){
 
-        return studentRepository4.findById(id);
+        Optional<Student> student1 = Optional.ofNullable(studentRepository4.findById(id));
+        return student1.get();
     }
 
     public void createStudent(Student student){

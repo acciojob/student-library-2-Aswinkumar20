@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
+import java.util.Optional;
 
 //Add required annotations
 
@@ -35,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity<String> createBook(@RequestBody Book book){
+    public ResponseEntity createBook(@RequestBody Book book){
         bookService.createBook(book);
         return new ResponseEntity<>("Success",HttpStatus.CREATED);
     }
